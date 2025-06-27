@@ -5,15 +5,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { once } from "events";
 import { Description } from "@radix-ui/react-dialog";
-import Link from "next/link";
 
 const containerVariants = {
-  hidden: { opacity: 0, y: 50 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
     transition: {
-      duration: 0.5,
       staggerChildren: 0.2,
     },
   },
@@ -29,39 +26,48 @@ const DiscoverSection = () => {
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true }}
+      viewport={{ once: true, amount: 0.8 }}
       variants={{ containerVariants }}
-      className="py-24 px-5 sm:px-8 lg:px-12 xl:px-16 bg-white"
+      className="py-12 bg-white mb-16"
     >
-      <div className="max-w-4xl xl:max-w-6xl mx-auto">
-        <motion.h2
-          variants={itemVariants}
-          className="text-3xl font-bold text-center mb-12 w-full sm:w-2/3 mx-auto"
-        >
-          Quickly find the home you want using our effective search filters!
-        </motion.h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 xl:gap-16">
-          {[0, 1, 2].map((index) => (
-            <motion.div key={index} variants={itemVariants}>
-              <FeatureCard
-                imgSrc={`/landing-search${3 - index}.png`}
-                title={
-                  [
-                    "Trustworthy and Verified Listings",
-                    "Browse Rental Listings with Ease",
-                    "Simplify Your Rental Search with Advanced",
-                  ][index]
-                }
-                description={
-                  [
-                    "Discover the best rental options with user reviews and ratings.",
-                    "Get access to user reviews and ratings for a better understanding of rental options.",
-                    "Find trustworthy and verified rental listings to ensure a hassle-free experience.",
-                  ][index]
-                }
-                linkText={["Explore", "Search", "Discover"][index]}
-                linkHref={["/explore", "/search", "/discover"][index]}
-              />
+      <div className="max-w-6xl xl:max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
+        <motion.div variants={itemVariants} className="my-12 text-center">
+          <h2 className="text-3xl font-semibold leading-tight text-gray-800">
+            Discover
+          </h2>
+          <p className="mt-4 text-lg text-gray-600">
+            Find your Dream Rental Property Today!
+          </p>
+          <p className="mt-2 text-gray-500 max-w-3xl mx-auto">
+            Searching for your dream rental property has never been easier. With
+            our user-friendly search feature, you can quickly find the perfect
+            home that meets all your needs. Start your search today and discover
+            your dream rental property!
+          </p>
+        </motion.div>
+        <div className="text-center grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 xl:gap-16">
+          {[
+            {
+              imgSrc: "/landing-icon-wand.png",
+              title: "Search for Properties",
+              description:
+                "Browse through our extensive collection of rental properties in your desired location.",
+            },
+            {
+              imgSrc: "/landing-icon-calendar.png",
+              title: "Book Your Rental",
+              description:
+                "Once you've found the perfect rental property, easily book it online with just a few clicks.",
+            },
+            {
+              imgSrc: "/landing-icon-heart.png",
+              title: "Enjoy your New Home",
+              description:
+                "Move into your new rental property and start enjoying your dream home.",
+            },
+          ].map((card, index) => (
+            <motion.div key={index} variants={{ itemVariants }}>
+              <DiscoverCard {...card} />
             </motion.div>
           ))}
         </div>
@@ -70,38 +76,27 @@ const DiscoverSection = () => {
   );
 };
 
-const FeatureCard = ({
+const DiscoverCard = ({
   imgSrc,
   title,
   description,
-  linkText,
-  linkHref,
 }: {
   imgSrc: string;
   title: string;
   description: string;
-  linkText: string;
-  linkHref: string;
 }) => (
-  <div className="text-center">
-    <div className="p-4 rounded-lg mb-4 flex items-center justify-center h-48">
+  <div className="px-4 py-12 shadow-lg rounded-lg bg-primary-50 md:h-72">
+    <div className="bg-primary-700 p-[0.6 rem] rounded-full mb-4 h-10 w-10 mx-auto">
       <Image
         src={imgSrc}
-        width={400}
-        height={400}
-        className="w-full h-full object-contain"
+        width={30}
+        height={30}
+        className="w-full h-full"
         alt={title}
       />
     </div>
-    <h3 className="text-xl font-semibold mb-2">{title}</h3>
-    <p className="mb-4">{description}</p>
-    <Link
-      href={linkHref}
-      className="inline-block border border-gray-300 rounded px-4 py-2 hover:bg-gray-100"
-      scroll={false}
-    >
-      {linkText}
-    </Link>
+    <h3 className="mt-4 text-xl font-medium text-gray-800">{title}</h3>
+    <p className="mt-2 text-base text-gray-500">{description}</p>
   </div>
 );
 
